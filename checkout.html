@@ -49,6 +49,7 @@
           <label><input type="radio" name="payment" value="transfer"> Transferência bancária</label>
         </fieldset>
         <button class="button checkout-submit" type="submit">Finalizar pagamento</button>
+        <p class="checkout-stock-message" role="alert" aria-live="assertive"></p>
         <p class="checkout-note">O pagamento ainda não está integrado. Ao continuar, os teus dados não são enviados nem guardados.</p>
       </form>
       <aside class="checkout-summary" aria-label="Resumo da encomenda">
@@ -65,6 +66,8 @@
   </main>
   <footer id="contactos"><div class="footer-top"><div class="footer-brand"><a class="wordmark" href="index.html">GLEAM&GLOW</a><p>Joalharia para guardar, usar e passar adiante. Criada com intenção, escolhida por ti.</p></div><div class="footer-column"><h3>Explorar</h3><a href="aneis.html">Anéis</a><a href="colares.html">Colares</a><a href="brincos.html">Brincos</a><a href="pulseiras.html">Pulseiras</a></div><div class="footer-column"><h3>Precisas de ajuda?</h3><a href="mailto:gleamandglow.pt">Fala connosco</a></div><div class="footer-column"><h3>Segue a luz</h3><a href="index.html#contactos">Instagram ↗</a><a href="index.html#contactos">Pinterest ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gleam&Glow. Feito com cuidado.</span><span>Privacidade &nbsp;·&nbsp; Termos &nbsp;·&nbsp; Portugal</span></div></footer>
   <div class="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -12,6 +12,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+
 <body>
   <div class="announcement">Envio gratuito em encomendas superiores a 75€ &nbsp;·&nbsp; Feito para durar</div>
   <header class="site-header">
@@ -28,9 +33,9 @@
       <button class="icon-button search-button" type="button" aria-label="Pesquisar" data-message="A pesquisa estará disponível em breve.">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
       </button>
-      <button class="icon-button account-button" type="button" aria-label="A minha conta" data-message="A área de cliente estará disponível em breve.">
+      <a class="icon-button account-button" href="admin.html" aria-label="Painel de administração">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c.7-3.5 3-5.3 6.5-5.3s5.8 1.8 6.5 5.3"/><circle cx="12" cy="12" r="9.5"/></svg>
-      </button>
+      </a>
       <button class="icon-button" type="button" aria-label="Carrinho" data-message="O seu carrinho está vazio.">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2h10.9L21 8H6"/><circle cx="9" cy="19.5" r="1"/><circle cx="17" cy="19.5" r="1"/></svg>
         <span class="cart-count" aria-live="polite">0</span>
@@ -126,7 +131,7 @@
         <p>Joalharia para guardar, usar e passar adiante. Criada com intenção, escolhida por ti.</p>
       </div>
       <div class="footer-column"><h3>Explorar</h3><a href="#colecao">Novidades</a><a href="#colecao">Colares</a><a href="#colecao">Anéis</a><a href="#colecao">Brincos</a></div>
-      <div class="footer-column"><h3>Precisas de ajuda?</h3><a href="mailto:gleamandglow.pt">Fala connosco</a><a href="#contactos">Envios e devoluções</a><a href="#contactos">Cuidados com as peças</a></div>
+      <div class="footer-column"><h3>Precisas de ajuda?</h3><a href="mailto:gleamandglow.pt">Fala connosco</a><a href="#contactos">Envios e devoluções</a><a href="#contactos">Cuidados com as peças</a><a href="admin.html">Administração</a></div>
       <div class="footer-column"><h3>Segue a luz</h3><a href="#contactos">Instagram ↗</a><a href="#contactos">Pinterest ↗</a></div>
     </div>
     <div class="footer-bottom"><span>© 2026 Gleam&Glow. Feito com cuidado.</span></div>
