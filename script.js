@@ -2,7 +2,7 @@ const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
 const toast = document.querySelector(".toast");
 let toastTimer;
-const cartStorageKey = "gleam-glow-cart";
+const cartStorageKey = "charmistry-cart";
 const currency = new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR" });
 let cart = [];
 const productStock = new Map();
@@ -45,14 +45,10 @@ function shippingCost(subtotal) {
   return subtotal === 0 || subtotal > 75 ? 0 : 4.9;
 }
 
-function formatStock(stock) {
-  return stock === 1 ? "1 unidade disponível" : `${stock} unidades disponíveis`;
-}
-
 function updateProductStockDisplay(card, stock) {
-  card.dataset.stock = String(stock);
+  card.dataset.available = stock > 0 ? "true" : "false";
   const stockMessage = card.querySelector(".product-stock");
-  if (stockMessage) stockMessage.textContent = stock > 0 ? formatStock(stock) : "Esgotado";
+  if (stockMessage) stockMessage.textContent = stock > 0 ? "Disponível" : "Esgotado";
   const addButton = card.querySelector(".add-to-cart");
   if (addButton) {
     addButton.disabled = stock === 0;
@@ -188,10 +184,10 @@ async function loadCollectionProducts() {
         }).join("")}</div>` : ""}`
       : `<div class="product-image-placeholder" role="img" aria-label="Imagem não disponível"></div>`;
 
-    return `<article class="product-card" data-product-id="${escapeHTML(product.id)}" data-price-cents="${product.price_cents}" data-stock="${stock}">
+    return `<article class="product-card" data-product-id="${escapeHTML(product.id)}" data-price-cents="${product.price_cents}" data-available="${stock > 0 ? "true" : "false"}">
       <div class="product-photo">${photo}${stockMessage}</div>
       <div class="product-info"><div><h2 class="product-name">${name}</h2><p class="product-detail">${description}</p></div><p class="product-price">${currency.format(product.price_cents / 100)}</p></div>
-      <div class="product-actions"><p class="product-stock" aria-live="polite">${stock > 0 ? formatStock(stock) : "Esgotado"}</p><button class="add-to-cart" type="button" ${stock > 0 ? "" : "disabled"}>${stock > 0 ? "Adicionar ao carrinho" : "Indisponível"}</button></div>
+      <div class="product-actions"><p class="product-stock" aria-live="polite">${stock > 0 ? "Disponível" : "Esgotado"}</p><button class="add-to-cart" type="button" ${stock > 0 ? "" : "disabled"}>${stock > 0 ? "Adicionar ao carrinho" : "Indisponível"}</button></div>
     </article>`;
   }).join("");
 }
@@ -249,7 +245,6 @@ function renderCart() {
             <button type="button" data-cart-action="increase" data-cart-id="${escapeHTML(item.id)}" aria-label="Aumentar quantidade de ${escapeHTML(item.name)}" ${productStock.has(item.id) && item.quantity >= productStock.get(item.id) ? "disabled" : ""}>+</button>
             <button class="cart-remove" type="button" data-cart-action="remove" data-cart-id="${escapeHTML(item.id)}">Apagar</button>
           </div>
-          ${productStock.has(item.id) ? `<p class="cart-stock">${escapeHTML(productStock.get(item.id) > 0 ? formatStock(productStock.get(item.id)) : "Esgotado")}</p>` : ""}
           <p class="cart-popover-price">${currency.format(item.price)} · Total ${currency.format(item.price * item.quantity)}</p>
         </div>
       </article>`).join("");
@@ -312,13 +307,13 @@ async function updateCart(id, action) {
         saveCart();
       }
       showToast(stock > 0
-        ? `A quantidade de ${name} foi ajustada para o stock disponível.`
+        ? `A quantidade de ${name} foi ajustada ao limite disponível.`
         : `${name} está esgotado; foi removido do carrinho.`);
       renderCart();
       return;
     }
     if (cart[currentIndex].quantity === stock) {
-      showToast(`Já atingiste o stock disponível de ${data.name}.`);
+      showToast(`Já atingiste o limite disponível de ${data.name}.`);
       renderCart();
       return;
     }
@@ -377,7 +372,7 @@ async function refreshCartStock({ notify = true } = {}) {
     if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > stock) {
       const previousQuantity = item.quantity;
       item.quantity = Math.max(1, Math.min(stock, Number.isInteger(previousQuantity) ? previousQuantity : 1));
-      problems.push(`${product.name}: quantidade ajustada para ${item.quantity}, o máximo disponível.`);
+      problems.push(`${product.name}: quantidade ajustada ao limite disponível.`);
       changed = true;
     }
     return true;
@@ -513,11 +508,11 @@ document.addEventListener("click", event => {
           existing.image = data.image_url || "";
           saveCart();
           renderCart();
-          showToast(`${data.name}: quantidade ajustada para ${stock}, o máximo disponível.`);
+          showToast(`${data.name}: quantidade ajustada ao limite disponível.`);
           return;
         }
         if (existing && existing.quantity >= stock) {
-          showToast(`Já atingiste o stock disponível de ${data.name}.`);
+          showToast(`Já atingiste o limite disponível de ${data.name}.`);
           return;
         }
         const item = {
@@ -542,7 +537,7 @@ document.addEventListener("click", event => {
         showToast("Não foi possível confirmar o stock. Tenta novamente.");
       })
       .finally(() => {
-        if (button.isConnected) button.disabled = Number(card.dataset.stock) === 0;
+        if (button.isConnected) button.disabled = card.dataset.available === "false";
       });
   }
 });

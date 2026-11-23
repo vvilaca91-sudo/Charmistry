@@ -1,4 +1,4 @@
--- Gleam&Glow stock reservations for the future trusted checkout/webhook.
+-- Charmistry stock reservations for the future trusted checkout/webhook.
 -- Run in the Supabase SQL Editor as postgres only after reviewing.
 -- Does not modify orders, order_items, payments, or existing product data.
 

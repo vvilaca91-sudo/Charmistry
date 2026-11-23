@@ -1,4 +1,4 @@
--- Gleam&Glow: galeria de até 5 imagens por produto.
+-- Charmistry: galeria de até 5 imagens por produto.
 -- Executar no SQL Editor do Supabase como postgres.
 -- Não elimina ficheiros do Storage nem altera encomendas, pagamentos ou stock.
 
